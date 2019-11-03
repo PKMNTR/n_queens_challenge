@@ -4,3 +4,6 @@ services:
 before_script:
   - psql -c 'create database db;' -U postgres
 script: pytest
+addons:
+  hosts:
+    - db
