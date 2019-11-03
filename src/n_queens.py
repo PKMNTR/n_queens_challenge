@@ -1,4 +1,5 @@
 import math
+from sys import argv
 from sqlalchemy import create_engine, Column, Integer, ARRAY, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -39,7 +40,7 @@ def n_queens(board_size):
     return len(results)
 
 def setup_db():
-    engine = create_engine('postgresql://postgres@localhost/db')
+    engine = create_engine('postgresql://postgres@db/db')
     Base.metadata.create_all(bind=engine)
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -52,3 +53,9 @@ def save_results(results, board_size, session):
         result_obj.result = result
         session.add(result_obj)
     session.commit()
+
+def start_app(board_size=8, *args):
+    solutions = n_queens(int(board_size))
+    print(f"El numero de soluciones es {solutions} para el tablero de {board_size}")
+
+start_app(*argv[1:])
