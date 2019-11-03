@@ -1,0 +1,15 @@
+version: "3"
+services:
+  db:
+    image: postgres:12.0-alpine
+    environment:
+      - POSTGRES_DB=db
+  app:
+    build: .
+    command: python ./n_queens.py 8
+    depends_on:
+      - db
+    environment:
+      - PYTHONUNBUFFERED=1
+    links:
+      - "db:localhost"
